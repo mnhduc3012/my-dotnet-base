@@ -1,7 +1,6 @@
 ﻿using MyDotNetBase.Application.Abstractions.Authentication;
 using MyDotNetBase.Application.Abstractions.Data;
 using MyDotNetBase.Application.Abstractions.Messaging;
-using MyDotNetBase.Domain.Shared.Entities;
 using MyDotNetBase.Domain.User.Enitties;
 using MyDotNetBase.Domain.User.Services;
 

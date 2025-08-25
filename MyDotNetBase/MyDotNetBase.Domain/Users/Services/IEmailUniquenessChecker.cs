@@ -2,5 +2,5 @@
 
 public interface IEmailUniquenessChecker
 {
-    Task<bool> IsUnique(string email);
+    Task<bool> IsUniqueEmail(string email);
 }

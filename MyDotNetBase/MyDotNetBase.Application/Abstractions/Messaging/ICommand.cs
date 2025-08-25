@@ -1,5 +1,4 @@
-﻿using MediatR;
-using MyDotNetBase.Domain.Shared.Entities;
+﻿using MyDotNetBase.Domain.Shared.Entities;
 
 namespace MyDotNetBase.Application.Abstractions.Messaging;
 
