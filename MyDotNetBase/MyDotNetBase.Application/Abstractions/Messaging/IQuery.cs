@@ -1,6 +1,5 @@
-﻿using MediatR;
-using MyDotNetBase.Domain.Shared.Entities;
+﻿using MyDotNetBase.Domain.Shared.Entities;
 
-namespace MyDotNetBase.Application.Messaging;
+namespace MyDotNetBase.Application.Abstractions.Messaging;
 
 public interface IQuery<TResponse> : IRequest<Result<TResponse>>;

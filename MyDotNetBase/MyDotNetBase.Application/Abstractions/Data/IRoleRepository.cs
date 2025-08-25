@@ -1,5 +1,4 @@
 ﻿using MyDotNetBase.Domain.Roles.Enitties;
-using MyDotNetBase.Domain.Shared.Entities;
 
 namespace MyDotNetBase.Application.Abstractions.Data;
 

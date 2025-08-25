@@ -29,5 +29,11 @@ namespace MyDotNetBase.Api.Controllers
             })
             .ToArray();
         }
+
+        [HttpPost("Test")]
+        public IActionResult Test()
+        {
+            return Ok("Test endpoint is working!");
+        }
     }
 }

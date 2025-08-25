@@ -33,7 +33,7 @@ public class User : AggregateRoot<UserId>
         if (emailOrError.IsFailure)
             return emailOrError.Error;
 
-        if (!await emailUniquenessChecker.IsUnique(emailOrError.Value))
+        if (!await emailUniquenessChecker.IsUniqueEmail(emailOrError.Value))
             return UserErrors.DuplicateEmail(emailOrError.Value);
 
         var user = new User(UserId.New())
