@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="User\**" />
+    <EmbeddedResource Remove="User\**" />
+    <None Remove="User\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Permission\Enitties\" />
+    <Folder Include="Permission\Enums\" />
+    <Folder Include="Permission\Errors\" />
+    <Folder Include="Permission\Events\" />
+    <Folder Include="Permission\Services\" />
+    <Folder Include="Permission\ValueObjects\" />
+    <Folder Include="Roles\Enums\" />
+    <Folder Include="Roles\Events\" />
+    <Folder Include="Roles\Services\" />
+    <Folder Include="Users\Enums\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.5.0" />
+  </ItemGroup>
+
+</Project>
