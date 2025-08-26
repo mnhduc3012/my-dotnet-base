@@ -1,4 +1,4 @@
-﻿using MyDotNetBase.Domain.Roles.Enitties;
+﻿using MyDotNetBase.Domain.Roles.Entities;
 
 namespace MyDotNetBase.Application.Abstractions.Data;
 

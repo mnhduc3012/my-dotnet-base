@@ -1,4 +1,4 @@
-﻿namespace MyDotNetBase.Domain.User.ValueObjects;
+﻿namespace MyDotNetBase.Domain.Users.ValueObjects;
 
 public readonly record struct UserId(Guid Value)
 {

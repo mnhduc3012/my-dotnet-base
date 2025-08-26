@@ -1,4 +1,4 @@
-﻿namespace MyDotNetBase.Domain.User.Services;
+﻿namespace MyDotNetBase.Domain.Users.Services;
 
 public interface IEmailUniquenessChecker
 {

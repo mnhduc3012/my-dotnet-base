@@ -1,8 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyDotNetBase.Application.Abstractions.Authentication;
+using MyDotNetBase.Application.Abstractions.Data;
+using MyDotNetBase.Domain.Users.Services;
+using MyDotNetBase.Infrastructure.Identity;
 using MyDotNetBase.Infrastructure.Persistence;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
+using MyDotNetBase.Infrastructure.Persistence.Repositories;
+using MyDotNetBase.Infrastructure.Services;
 
 namespace MyDotNetBase.Infrastructure;
 
@@ -14,6 +18,10 @@ public static class DependencyInjection
     {
         services.AddDatabaseServices(configuration);
 
+        services.AddIdentityServices();
+
+        services.AddDomainServices();
+
         return services;
     }
 
@@ -23,11 +31,32 @@ public static class DependencyInjection
     {
         string? connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        services.AddDbContext<ApplicationDbContext>(options =>
+        if (string.IsNullOrWhiteSpace(connectionString))
+            throw new InvalidOperationException("Connection string 'DefaultConnection' is missing.");
+
+        services.AddDbContextPool<ApplicationDbContext>(options =>
         {
             options.UseNpgsql(connectionString)
                    .UseSnakeCaseNamingConvention();
         });
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddIdentityServices(this IServiceCollection services)
+    {
+        services.AddSingleton<IPasswordHasher, PasswordHasher>();
+        return services;
+    }
+
+    private static IServiceCollection AddDomainServices(this IServiceCollection services)
+    {
+        services.AddScoped<IEmailUniquenessChecker, UserService>();
 
         return services;
     }

@@ -1,8 +1,8 @@
 ﻿using MyDotNetBase.Domain.Shared.Entities;
-using MyDotNetBase.Domain.User.Errors;
+using MyDotNetBase.Domain.Users.Errors;
 using System.Net.Mail;
 
-namespace MyDotNetBase.Domain.User.ValueObjects;
+namespace MyDotNetBase.Domain.Users.ValueObjects;
 
 public sealed record Email
 {
