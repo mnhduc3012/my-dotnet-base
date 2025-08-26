@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyDotNetBase.Domain.Shared.Entities;
 
-namespace Gatherly.Presentation.Abstractions;
+namespace MyDotNetBase.Api.Abstractions;
 
 [ApiController]
 public abstract class ApiController : ControllerBase

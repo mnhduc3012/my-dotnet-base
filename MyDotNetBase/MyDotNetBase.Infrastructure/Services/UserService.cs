@@ -1,5 +1,5 @@
 ﻿using MyDotNetBase.Application.Abstractions.Data;
-using MyDotNetBase.Domain.User.Services;
+using MyDotNetBase.Domain.Users.Services;
 using MyDotNetBase.Infrastructure.Persistence;
 
 namespace MyDotNetBase.Infrastructure.Services;

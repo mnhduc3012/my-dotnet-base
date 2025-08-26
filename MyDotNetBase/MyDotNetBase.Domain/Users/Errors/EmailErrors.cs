@@ -1,6 +1,6 @@
 ﻿using MyDotNetBase.Domain.Shared.Entities;
 
-namespace MyDotNetBase.Domain.User.Errors;
+namespace MyDotNetBase.Domain.Users.Errors;
 
 public static class EmailErrors
 {

@@ -1,5 +1,4 @@
 ﻿using MyDotNetBase.Domain.Shared.Entities;
-using MyDotNetBase.Domain.User.ValueObjects;
 
 namespace MyDotNetBase.Domain.Roles.Errors;
 public class RoleErrors

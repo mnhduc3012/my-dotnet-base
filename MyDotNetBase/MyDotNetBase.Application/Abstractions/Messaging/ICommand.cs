@@ -1,6 +1,4 @@
-﻿using MyDotNetBase.Domain.Shared.Entities;
-
-namespace MyDotNetBase.Application.Abstractions.Messaging;
+﻿namespace MyDotNetBase.Application.Abstractions.Messaging;
 
 public interface ICommand : IRequest<Result>;
 

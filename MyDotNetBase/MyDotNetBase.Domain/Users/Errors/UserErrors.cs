@@ -1,7 +1,7 @@
 ﻿using MyDotNetBase.Domain.Shared.Entities;
-using MyDotNetBase.Domain.User.ValueObjects;
+using MyDotNetBase.Domain.Users.ValueObjects;
 
-namespace MyDotNetBase.Domain.User.Errors;
+namespace MyDotNetBase.Domain.Users.Errors;
 public class UserErrors
 {
     public static Error DuplicateEmail(Email email) => Error.Failure(

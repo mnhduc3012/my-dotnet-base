@@ -1,21 +1,21 @@
-﻿using MyDotNetBase.Domain.Roles.Enitties;
+﻿using MyDotNetBase.Domain.Roles.Entities;
 using MyDotNetBase.Domain.Shared.Aggregates;
 using MyDotNetBase.Domain.Shared.Entities;
-using MyDotNetBase.Domain.User.Errors;
-using MyDotNetBase.Domain.User.Events;
-using MyDotNetBase.Domain.User.Services;
-using MyDotNetBase.Domain.User.ValueObjects;
+using MyDotNetBase.Domain.Users.Errors;
+using MyDotNetBase.Domain.Users.Events;
+using MyDotNetBase.Domain.Users.Services;
+using MyDotNetBase.Domain.Users.ValueObjects;
 
-namespace MyDotNetBase.Domain.User.Enitties;
+namespace MyDotNetBase.Domain.Users.Entities;
 
 public class User : AggregateRoot<UserId>
 {
-    private readonly List<Role> _roleIds = [];
+    private readonly List<Role> _roles = [];
     public string Username { get; private set; } = null!;
     public string FullName { get; private set; } = null!;
     public Email Email { get; private set; } = null!;
     public string PasswordHash { get; private set; } = null!;
-    public IReadOnlyList<Role> Roles => _roleIds.AsReadOnly();
+    public IReadOnlyList<Role> Roles => _roles.AsReadOnly();
 
     private User(UserId id) : base(id) { }
 
@@ -49,7 +49,6 @@ public class User : AggregateRoot<UserId>
 
         return user;
     }
-
     public static async Task<Result<User>> RegisterAsync(
         IEmailUniquenessChecker emailUniquenessChecker,
         string fullName,
@@ -67,15 +66,14 @@ public class User : AggregateRoot<UserId>
         return user;
     }
 
-
     public void AddRole(Role role)
     {
-        if (!_roleIds.Contains(role))
-            _roleIds.Add(role);
+        if (!_roles.Contains(role))
+            _roles.Add(role);
     }
 
     public void RemoveRole(Role role)
     {
-        _roleIds.Remove(role);
+        _roles.Remove(role);
     }
 }

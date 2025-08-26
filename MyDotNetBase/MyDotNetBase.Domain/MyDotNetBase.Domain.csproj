@@ -13,13 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Permission\Enitties\" />
-    <Folder Include="Permission\Enums\" />
-    <Folder Include="Permission\Errors\" />
-    <Folder Include="Permission\Events\" />
-    <Folder Include="Permission\Services\" />
-    <Folder Include="Permission\ValueObjects\" />
-    <Folder Include="Roles\Enums\" />
     <Folder Include="Roles\Events\" />
     <Folder Include="Roles\Services\" />
     <Folder Include="Users\Enums\" />

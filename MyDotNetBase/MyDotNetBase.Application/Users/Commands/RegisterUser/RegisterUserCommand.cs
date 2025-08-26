@@ -1,8 +1,8 @@
 ﻿using MyDotNetBase.Application.Abstractions.Authentication;
 using MyDotNetBase.Application.Abstractions.Data;
 using MyDotNetBase.Application.Abstractions.Messaging;
-using MyDotNetBase.Domain.User.Enitties;
-using MyDotNetBase.Domain.User.Services;
+using MyDotNetBase.Domain.Users.Entities;
+using MyDotNetBase.Domain.Users.Services;
 
 namespace MyDotNetBase.Application.Users.Commands.RegisterUser;
 
@@ -51,5 +51,21 @@ public sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCom
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
+    }
+}
+
+public sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
+{
+    public RegisterUserCommandValidator()
+    {
+        RuleFor(x => x.Email)
+            .NotEmpty()
+            .EmailAddress();
+        RuleFor(x => x.FullName)
+            .NotEmpty()
+            .MaximumLength(100);
+        RuleFor(x => x.Password)
+            .NotEmpty()
+            .MinimumLength(6);
     }
 }

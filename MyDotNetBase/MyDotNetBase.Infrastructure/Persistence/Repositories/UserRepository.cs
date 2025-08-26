@@ -1,5 +1,5 @@
 ﻿using MyDotNetBase.Application.Abstractions.Data;
-using MyDotNetBase.Domain.User.Enitties;
+using MyDotNetBase.Domain.Users.Entities;
 
 namespace MyDotNetBase.Infrastructure.Persistence.Repositories;
 

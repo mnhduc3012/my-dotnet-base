@@ -1,7 +1,7 @@
 ﻿using MyDotNetBase.Domain.Shared.DomainEvents;
-using MyDotNetBase.Domain.User.ValueObjects;
+using MyDotNetBase.Domain.Users.ValueObjects;
 
-namespace MyDotNetBase.Domain.User.Events;
+namespace MyDotNetBase.Domain.Users.Events;
 
 public sealed record UserRegisteredDomainEvent(
     UserId UserId,

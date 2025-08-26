@@ -12,7 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MyDotNetBase.Application\MyDotNetBase.Application.csproj" />
     <ProjectReference Include="..\MyDotNetBase.Domain\MyDotNetBase.Domain.csproj" />
+    <ProjectReference Include="..\MyDotNetBase.Infrastructure\MyDotNetBase.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
