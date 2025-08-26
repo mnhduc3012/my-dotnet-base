@@ -15,22 +15,10 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IAuditable
     protected void RaiseDomainEvent(IDomainEvent @event) => _domainEvents.Add(@event);
     public void ClearDomainEvents() => _domainEvents.Clear();
 
-    public DateTime CreatedAt { get; private set; }
-    public string? CreatedBy { get; private set; }
-    public DateTime? UpdatedAt { get; private set; }
-    public string? UpdatedBy { get; private set; }
-
-    public void SetCreated(string userId)
-    {
-        CreatedAt = DateTime.UtcNow;
-        CreatedBy = userId;
-    }
-
-    public void SetUpdated(string userId)
-    {
-        UpdatedAt = DateTime.UtcNow;
-        UpdatedBy = userId;
-    }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public string? CreatedBy { get; set; } = null;
+    public DateTime? UpdatedAt { get; set; } = null;
+    public string? UpdatedBy { get; set; } = null;
 }
 
 

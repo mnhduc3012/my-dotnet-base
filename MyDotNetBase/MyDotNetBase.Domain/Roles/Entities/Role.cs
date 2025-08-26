@@ -6,7 +6,7 @@ using MyDotNetBase.Domain.Shared.Entities;
 
 namespace MyDotNetBase.Domain.Roles.Entities;
 
-public class Role : AggregateRoot<RoleId>
+public sealed class Role : AggregateRoot<RoleId>
 {
     private readonly List<RolePermission> _permissions = [];
     public IReadOnlyList<RolePermission> Permissions => _permissions.AsReadOnly();

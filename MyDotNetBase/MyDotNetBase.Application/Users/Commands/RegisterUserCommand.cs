@@ -4,9 +4,29 @@ using MyDotNetBase.Application.Abstractions.Messaging;
 using MyDotNetBase.Domain.Users.Entities;
 using MyDotNetBase.Domain.Users.Services;
 
-namespace MyDotNetBase.Application.Users.Commands.RegisterUser;
+namespace MyDotNetBase.Application.Users.Commands;
 
-public sealed record RegisterUserCommand(string Email, string FullName, string Password) : ICommand;
+public sealed record RegisterUserCommand(
+    string Email,
+    string FullName,
+    string Password
+) : ICommand;
+
+public sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
+{
+    public RegisterUserCommandValidator()
+    {
+        RuleFor(x => x.Email)
+            .NotEmpty()
+            .EmailAddress();
+        RuleFor(x => x.FullName)
+            .NotEmpty()
+            .MaximumLength(100);
+        RuleFor(x => x.Password)
+            .NotEmpty()
+            .MinimumLength(6);
+    }
+}
 
 public sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand>
 {
@@ -46,26 +66,21 @@ public sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCom
         if (userOrError.IsFailure)
             return userOrError;
 
-        await _userRepository.AddAsync(userOrError.Value);
+        _userRepository.Add(userOrError.Value);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
+
+
+
+        //var user = _repo_GetById
+        //user.Fullname = "abc"
+        // _repo_Update(user)
+        //_uow.SaveChanges
+
+
+
     }
 }
 
-public sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
-{
-    public RegisterUserCommandValidator()
-    {
-        RuleFor(x => x.Email)
-            .NotEmpty()
-            .EmailAddress();
-        RuleFor(x => x.FullName)
-            .NotEmpty()
-            .MaximumLength(100);
-        RuleFor(x => x.Password)
-            .NotEmpty()
-            .MinimumLength(6);
-    }
-}

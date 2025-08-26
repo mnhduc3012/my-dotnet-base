@@ -1,10 +1,9 @@
-﻿using MyDotNetBase.Application.Abstractions.Data;
-using MyDotNetBase.Domain.Users.Services;
+﻿using MyDotNetBase.Domain.Users.Services;
 using MyDotNetBase.Infrastructure.Persistence;
 
 namespace MyDotNetBase.Infrastructure.Services;
 
-public class UserService : 
+public sealed class UserService : 
     IEmailUniquenessChecker
 {
     private readonly ApplicationDbContext _context;

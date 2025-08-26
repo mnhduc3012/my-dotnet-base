@@ -1,8 +1,9 @@
 ﻿using MyDotNetBase.Domain.Roles.Entities;
+using MyDotNetBase.Domain.Roles.ValueObjects;
 
 namespace MyDotNetBase.Application.Abstractions.Data;
 
-public interface IRoleRepository
+public interface IRoleRepository : IRepository<Role, RoleId>
 {
     Task<Result<Role>> GetDefaultRoleAsync();
 }
