@@ -1,8 +1,8 @@
 ﻿using MyDotNetBase.Domain.Users.Entities;
+using MyDotNetBase.Domain.Users.ValueObjects;
 
 namespace MyDotNetBase.Application.Abstractions.Data;
 
-public interface IUserRepository
+public interface IUserRepository : IRepository<User, UserId>
 {
-    Task AddAsync(User user);
 }

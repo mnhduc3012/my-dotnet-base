@@ -1,8 +1,6 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using MyDotNetBase.Api.Abstractions;
-using MyDotNetBase.Api.Contracts.Users;
-using MyDotNetBase.Application.Users.Commands.RegisterUser;
+﻿using MyDotNetBase.Api.Contracts.Users;
+using MyDotNetBase.Application.Users.Commands;
+using MyDotNetBase.Application.Users.Queries;
 
 namespace MyDotNetBase.Api.Controllers;
 
@@ -26,5 +24,12 @@ public sealed class UsersController : ApiController
         return Ok();
     }
 
-
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetUserById([FromRoute] Guid id)
+    {
+        var result = await Sender.Send(new GetUserByIdQuery(id));
+        if (result.IsFailure)
+            return HandleFailure(result);
+        return Ok(result.Value);
+    }
 }

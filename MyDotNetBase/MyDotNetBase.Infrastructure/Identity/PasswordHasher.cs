@@ -2,7 +2,7 @@
 
 namespace MyDotNetBase.Infrastructure.Identity;
 
-public class PasswordHasher : IPasswordHasher
+public sealed class PasswordHasher : IPasswordHasher
 {
     public string Hash(string password)
         => BCrypt.Net.BCrypt.HashPassword(password);

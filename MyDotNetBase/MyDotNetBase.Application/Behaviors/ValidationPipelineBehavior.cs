@@ -1,5 +1,4 @@
-﻿using MyDotNetBase.Domain.Shared.Entities;
-using MyDotNetBase.Domain.Shared.Enums;
+﻿using MyDotNetBase.Domain.Shared.Enums;
 
 namespace MyDotNetBase.Application.Behaviors;
 

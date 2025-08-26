@@ -8,7 +8,7 @@ using MyDotNetBase.Domain.Users.ValueObjects;
 
 namespace MyDotNetBase.Domain.Users.Entities;
 
-public class User : AggregateRoot<UserId>
+public sealed class User : AggregateRoot<UserId>
 {
     private readonly List<Role> _roles = [];
     public string Username { get; private set; } = null!;
@@ -16,7 +16,6 @@ public class User : AggregateRoot<UserId>
     public Email Email { get; private set; } = null!;
     public string PasswordHash { get; private set; } = null!;
     public IReadOnlyList<Role> Roles => _roles.AsReadOnly();
-
     private User(UserId id) : base(id) { }
 
     public static async Task<Result<User>> CreateAsync(
