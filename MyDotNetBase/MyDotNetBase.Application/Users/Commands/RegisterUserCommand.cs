@@ -71,16 +71,6 @@ public sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCom
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
-
-
-
-        //var user = _repo_GetById
-        //user.Fullname = "abc"
-        // _repo_Update(user)
-        //_uow.SaveChanges
-
-
-
     }
 }
 

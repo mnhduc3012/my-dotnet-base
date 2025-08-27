@@ -4,7 +4,7 @@ using MyDotNetBase.Domain.Shared.Entities;
 
 namespace MyDotNetBase.Domain.Shared.Aggregates;
 
-public abstract class AggregateRoot<TId> : Entity<TId>, IAuditable
+public abstract class AggregateRoot<TId> : Entity<TId>, IAuditable, IHasDomainEvents
     where TId : notnull
 {
     private readonly List<IDomainEvent> _domainEvents = [];
