@@ -2,8 +2,15 @@ using MyDotNetBase.Api;
 using MyDotNetBase.Api.Infrastructure;
 using MyDotNetBase.Application;
 using MyDotNetBase.Infrastructure;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, loggerConfig) =>
+{
+    loggerConfig
+        .ReadFrom.Configuration(context.Configuration);
+});
 
 builder.Services
     .AddInfrastructureServices(builder.Configuration)
@@ -23,6 +30,9 @@ var app = builder.Build();
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<RequestLogContextMiddleware>();
+app.UseSerilogRequestLogging();
 
 app.UseRouting();
 
