@@ -1,31 +1,35 @@
 using MyDotNetBase.Api;
+using MyDotNetBase.Api.Infrastructure;
 using MyDotNetBase.Application;
 using MyDotNetBase.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddInfrastructureServices(builder.Configuration);
-
-builder.Services.AddApplicationServices();
-
-builder.Services.AddApiServices();
+builder.Services
+    .AddInfrastructureServices(builder.Configuration)
+    .AddApplicationServices()
+    .AddApiServices();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseRouting();
-
-app.UseSwagger();
-app.UseSwaggerUI();
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthorization();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.MapControllers();
 

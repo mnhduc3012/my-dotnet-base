@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyDotNetBase.Application.Abstractions.Data;
+﻿using MyDotNetBase.Application.Abstractions.Data;
+using MyDotNetBase.Domain.Roles.Entities;
+using MyDotNetBase.Domain.Shared.Aggregates;
 using MyDotNetBase.Domain.Users.Entities;
 using System.Reflection;
 
@@ -13,11 +14,7 @@ public class ApplicationDbContext : DbContext, IUnitOfWork
     }
 
     public DbSet<User> Users => Set<User>();
-
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        return base.SaveChangesAsync(cancellationToken);
-    }
+    public DbSet<Role> Roles => Set<Role>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

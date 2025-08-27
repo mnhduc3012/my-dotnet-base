@@ -23,4 +23,8 @@
 		<ProjectReference Include="..\MyDotNetBase.Domain\MyDotNetBase.Domain.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Email\" />
+	</ItemGroup>
+
 </Project>

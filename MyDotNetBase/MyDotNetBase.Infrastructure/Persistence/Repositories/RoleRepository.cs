@@ -14,7 +14,9 @@ public sealed class RoleRepository : Repository<Role, RoleId>, IRoleRepository
 
     public override Task<Role?> GetByIdAsync(RoleId id)
     {
-        throw new NotImplementedException();
+        return DbContext.Roles
+            .Include(r => r.Permissions)
+            .SingleOrDefaultAsync(r => r.Id == id);
     }
 
     public Task<Result<Role>> GetDefaultRoleAsync()

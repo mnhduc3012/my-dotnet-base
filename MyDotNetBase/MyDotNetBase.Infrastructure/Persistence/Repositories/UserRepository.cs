@@ -10,9 +10,9 @@ public sealed class UserRepository : Repository<User, UserId>, IUserRepository
     {
     }
 
-    public override async Task<User?> GetByIdAsync(UserId userId)
+    public override Task<User?> GetByIdAsync(UserId userId)
     {
-        return await DbContext.Users
+        return DbContext.Users
             .Include(u => u.Roles)
             .SingleOrDefaultAsync(u => u.Id == userId);
     }
