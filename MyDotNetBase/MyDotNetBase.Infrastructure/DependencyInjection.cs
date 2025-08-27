@@ -1,14 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Humanizer;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyDotNetBase.Application.Abstractions.Authentication;
 using MyDotNetBase.Application.Abstractions.Data;
 using MyDotNetBase.Domain.Users.Services;
+using MyDotNetBase.Infrastructure.BackgroundJobs;
 using MyDotNetBase.Infrastructure.Identity;
 using MyDotNetBase.Infrastructure.Persistence;
 using MyDotNetBase.Infrastructure.Persistence.Interceptors;
 using MyDotNetBase.Infrastructure.Persistence.Repositories;
 using MyDotNetBase.Infrastructure.Services;
+using Quartz;
+using Quartz.Simpl;
 
 namespace MyDotNetBase.Infrastructure;
 
@@ -18,11 +22,11 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddDatabaseServices(configuration);
-
-        services.AddIdentityServices();
-
-        services.AddDomainServices();
+        services
+            .AddDatabaseServices(configuration)
+            .AddIdentityServices()
+            .AddDomainServices()
+            .AddBackgroundJobsServices();
 
         return services;
     }
@@ -67,6 +71,33 @@ public static class DependencyInjection
     private static IServiceCollection AddDomainServices(this IServiceCollection services)
     {
         services.AddScoped<IEmailUniquenessChecker, UserService>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddBackgroundJobsServices(this IServiceCollection services)
+    {
+        services.AddQuartz(configure =>
+        {
+            var jobKey = new JobKey(nameof(ProcessOutboxMessagesJob));
+
+            configure
+                .AddJob<ProcessOutboxMessagesJob>(jobKey)
+                .AddTrigger(
+                    trigger =>
+                        trigger.ForJob(jobKey)
+                            .WithSimpleSchedule(
+                                schedule =>
+                                    schedule.WithIntervalInSeconds(10)
+                                        .RepeatForever())
+                )
+                .UseJobFactory<MicrosoftDependencyInjectionJobFactory>();
+        });
+
+        services.AddQuartzHostedService(options =>
+        {
+            options.WaitForJobsToComplete = true;
+        });
 
         return services;
     }
