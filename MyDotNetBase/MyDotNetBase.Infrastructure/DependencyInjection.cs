@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyDotNetBase.Application.Abstractions.Authentication;
 using MyDotNetBase.Application.Abstractions.Data;
@@ -35,17 +36,15 @@ public static class DependencyInjection
         if (string.IsNullOrWhiteSpace(connectionString))
             throw new InvalidOperationException("Connection string 'DefaultConnection' is missing.");
 
-        services.AddScoped<AuditSaveChangesInterceptor>();
-        services.AddScoped<DispatchDomainEventsInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, AuditSaveChangesInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, ConvertDomainEventsToOutboxMessageInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
-        services.AddDbContextPool<ApplicationDbContext>((sp, options) =>
+        services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
             options.UseNpgsql(connectionString)
                    .UseSnakeCaseNamingConvention()
-                   .AddInterceptors(
-                        sp.GetRequiredService<AuditSaveChangesInterceptor>(),
-                        sp.GetRequiredService<DispatchDomainEventsInterceptor>()
-                   );
+                   .AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
         });
         services.AddScoped<IDbConnectionFactory>(_ => new NpgsqlConnectionFactory(connectionString));
 

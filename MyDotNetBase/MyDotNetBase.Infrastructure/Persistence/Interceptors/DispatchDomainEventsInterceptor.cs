@@ -6,9 +6,9 @@ namespace MyDotNetBase.Infrastructure.Persistence.Interceptors;
 
 public sealed class DispatchDomainEventsInterceptor : SaveChangesInterceptor
 {
-    private readonly IMediator _mediator;
+    private readonly IPublisher _publisher;
 
-    public DispatchDomainEventsInterceptor(IMediator mediator) => _mediator = mediator;
+    public DispatchDomainEventsInterceptor(IPublisher publisher) => _publisher = publisher;
 
     public override async ValueTask<int> SavedChangesAsync(
         SaveChangesCompletedEventData eventData,
@@ -27,7 +27,7 @@ public sealed class DispatchDomainEventsInterceptor : SaveChangesInterceptor
             {
                 foreach (var domainEvent in aggregate.DomainEvents)
                 {
-                    await _mediator.Publish(domainEvent, cancellationToken);
+                    await _publisher.Publish(domainEvent, cancellationToken);
                 }
                 aggregate.ClearDomainEvents();
             }
