@@ -70,6 +70,7 @@ public sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCom
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+
         return Result.Success();
     }
 }
