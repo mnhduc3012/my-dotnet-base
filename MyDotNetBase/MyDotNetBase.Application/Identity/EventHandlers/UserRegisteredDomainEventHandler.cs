@@ -1,6 +1,6 @@
 ﻿using MyDotNetBase.Domain.Users.Events;
 
-namespace MyDotNetBase.Application.Users.EventHandlers;
+namespace MyDotNetBase.Application.Identity.EventHandlers;
 
 public sealed class UserRegisteredDomainEventHandler
     : INotificationHandler<UserRegisteredDomainEvent>

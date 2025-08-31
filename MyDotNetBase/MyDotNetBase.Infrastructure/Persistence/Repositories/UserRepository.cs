@@ -16,4 +16,11 @@ public sealed class UserRepository : Repository<User, UserId>, IUserRepository
             .Include(u => u.Roles)
             .SingleOrDefaultAsync(u => u.Id == userId);
     }
+
+    public Task<User?> GetByUsernameAsync(string username)
+    {
+        return DbContext.Users
+            .Include(u => u.Roles)
+            .SingleOrDefaultAsync(u => u.Username == username);
+    }
 }

@@ -1,4 +1,4 @@
-﻿namespace MyDotNetBase.Infrastructure.Persistence.Outbox;
+﻿namespace MyDotNetBase.Infrastructure.Outbox;
 
 public sealed class OutboxMessage
 {

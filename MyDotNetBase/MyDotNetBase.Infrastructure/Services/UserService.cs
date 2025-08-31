@@ -1,15 +1,17 @@
 ﻿using MyDotNetBase.Domain.Users.Services;
+using MyDotNetBase.Domain.Users.ValueObjects;
 using MyDotNetBase.Infrastructure.Persistence;
 
 namespace MyDotNetBase.Infrastructure.Services;
 
-public sealed class UserService : 
+public sealed class UserService :
     IEmailUniquenessChecker
 {
     private readonly ApplicationDbContext _context;
     public UserService(ApplicationDbContext context) => _context = context;
-    public Task<bool> IsUniqueEmail(string email)
+    public async Task<bool> IsUniqueEmail(Email email)
     {
-        throw new NotImplementedException();
+        return !await _context.Users
+            .AnyAsync(u => u.Email.Value == email);
     }
 }

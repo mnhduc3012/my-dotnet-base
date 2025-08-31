@@ -5,6 +5,7 @@ using MyDotNetBase.Domain.Users.Errors;
 using MyDotNetBase.Domain.Users.Events;
 using MyDotNetBase.Domain.Users.Services;
 using MyDotNetBase.Domain.Users.ValueObjects;
+using System.Net.Mail;
 
 namespace MyDotNetBase.Domain.Users.Entities;
 

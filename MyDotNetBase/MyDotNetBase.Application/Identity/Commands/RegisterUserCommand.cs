@@ -1,10 +1,8 @@
 ﻿using MyDotNetBase.Application.Abstractions.Authentication;
-using MyDotNetBase.Application.Abstractions.Data;
-using MyDotNetBase.Application.Abstractions.Messaging;
 using MyDotNetBase.Domain.Users.Entities;
 using MyDotNetBase.Domain.Users.Services;
 
-namespace MyDotNetBase.Application.Users.Commands;
+namespace MyDotNetBase.Application.Identity.Commands;
 
 public sealed record RegisterUserCommand(
     string Email,
@@ -18,7 +16,8 @@ public sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUse
     {
         RuleFor(x => x.Email)
             .NotEmpty()
-            .EmailAddress();
+            .EmailAddress()
+            .WithMessage($"Email không hợp lệ");
         RuleFor(x => x.FullName)
             .NotEmpty()
             .MaximumLength(100);
@@ -50,9 +49,9 @@ public sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCom
     }
     public async Task<Result> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        var defaultRoleOrError = await _roleRepository.GetDefaultRoleAsync();
-        if (defaultRoleOrError.IsFailure)
-            return defaultRoleOrError;
+        var defaultRole = await _roleRepository.GetDefaultRoleAsync();
+        if (defaultRole is null)
+            return Error.NullValue;
 
         var passwordHash = _passwordHasher.Hash(request.Password);
 
@@ -61,10 +60,10 @@ public sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCom
             request.FullName,
             request.Email,
             passwordHash,
-            [defaultRoleOrError.Value]);
+            [defaultRole]);
 
         if (userOrError.IsFailure)
-            return userOrError;
+            return userOrError.Error;
 
         _userRepository.Add(userOrError.Value);
 

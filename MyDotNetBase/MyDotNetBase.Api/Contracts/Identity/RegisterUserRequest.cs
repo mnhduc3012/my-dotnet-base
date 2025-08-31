@@ -1,4 +1,4 @@
-﻿namespace MyDotNetBase.Api.Contracts.Users;
+﻿namespace MyDotNetBase.Api.Contracts.Identity;
 
 public sealed record RegisterUserRequest(
     string Email,

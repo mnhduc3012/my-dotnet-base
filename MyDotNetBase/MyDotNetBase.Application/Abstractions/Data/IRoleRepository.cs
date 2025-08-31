@@ -5,5 +5,5 @@ namespace MyDotNetBase.Application.Abstractions.Data;
 
 public interface IRoleRepository : IRepository<Role, RoleId>
 {
-    Task<Result<Role>> GetDefaultRoleAsync();
+    Task<Role?> GetDefaultRoleAsync();
 }

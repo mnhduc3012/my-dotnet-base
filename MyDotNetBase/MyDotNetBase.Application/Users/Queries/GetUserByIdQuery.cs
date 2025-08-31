@@ -19,9 +19,6 @@ public sealed class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, Us
 
     public async Task<Result<User>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByIdAsync(new UserId(request.UserId));
-        if (user == null)
-            return Error.NotFound("","");
-        return user;
+        return await _userRepository.GetByIdAsync(new UserId(request.UserId));
     }
 }

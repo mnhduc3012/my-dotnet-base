@@ -4,11 +4,8 @@ using System.Net.Mail;
 
 namespace MyDotNetBase.Domain.Users.ValueObjects;
 
-public sealed record Email
+public sealed record Email(string Value)
 {
-    public string Value { get; private set; }
-    private Email(string value) => Value = value;
-
     public static Result<Email> Create(string email)
     {
         if (!IsValidEmail(email))
@@ -32,3 +29,4 @@ public sealed record Email
 
     public static implicit operator string(Email email) => email.Value;
 }
+

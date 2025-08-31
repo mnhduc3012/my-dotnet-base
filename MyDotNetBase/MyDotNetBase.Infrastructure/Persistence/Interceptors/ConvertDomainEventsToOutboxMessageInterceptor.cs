@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using MyDotNetBase.Domain.Shared.DomainEvents;
-using MyDotNetBase.Infrastructure.Persistence.Outbox;
+using MyDotNetBase.Infrastructure.Outbox;
 using Newtonsoft.Json;
 
 namespace MyDotNetBase.Infrastructure.Persistence.Interceptors;

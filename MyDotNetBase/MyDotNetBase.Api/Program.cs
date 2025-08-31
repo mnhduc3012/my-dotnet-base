@@ -23,7 +23,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGenWithAuthentication();
 
 var app = builder.Build();
 
@@ -37,6 +37,8 @@ app.UseSerilogRequestLogging();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseAuthentication();
 
 app.UseSwagger();
 app.UseSwaggerUI();
