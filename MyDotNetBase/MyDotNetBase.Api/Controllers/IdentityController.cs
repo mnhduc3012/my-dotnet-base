@@ -4,12 +4,8 @@ using MyDotNetBase.Application.Identity.Commands;
 namespace MyDotNetBase.Api.Controllers;
 
 [Route("api/identity")]
-public class IdentityController : ApiController
+public class IdentityController(ISender sender) : ApiController(sender)
 {
-    public IdentityController(ISender sender) : base(sender)
-    {
-    }
-
     [HttpPost("login")]
     public async Task<IActionResult> Login(
         [FromBody] LoginRequest request,

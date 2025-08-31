@@ -5,7 +5,7 @@ namespace MyDotNetBase.Application.Abstractions.Data;
 
 public interface IRefreshTokenRepository : IRepository<RefreshToken, Guid>
 {
-    Task DeleteByUserIdAsync(UserId userId);
+    Task DeleteByUserIdAsync(UserId userId, CancellationToken cancellationToken);
 
-    Task<RefreshToken?> GetByTokenAsync(string token);
+    Task<RefreshToken?> GetByTokenAsync(string token, CancellationToken cancellationToken);
 }

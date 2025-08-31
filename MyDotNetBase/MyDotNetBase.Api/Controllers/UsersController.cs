@@ -3,12 +3,8 @@
 namespace MyDotNetBase.Api.Controllers;
 
 [Route("api/users")]
-public sealed class UsersController : ApiController
+public sealed class UsersController(ISender sender) : ApiController(sender)
 {
-    public UsersController(ISender sender) : base(sender)
-    {
-    }
-
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById([FromRoute] Guid id)
     {

@@ -4,21 +4,19 @@ using MyDotNetBase.Domain.Roles.ValueObjects;
 
 namespace MyDotNetBase.Infrastructure.Persistence.Repositories;
 
-public sealed class RoleRepository : Repository<Role, RoleId>, IRoleRepository
+public sealed class RoleRepository(ApplicationDbContext context) :
+    Repository<Role, RoleId>(context),
+    IRoleRepository
 {
-    public RoleRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-
-    public override Task<Role?> GetByIdAsync(RoleId id)
+    public override Task<Role?> GetByIdAsync(RoleId id, CancellationToken cancellationToken)
     {
         return DbContext.Roles
             .Include(r => r.Permissions)
-            .SingleOrDefaultAsync(r => r.Id == id);
+            .SingleOrDefaultAsync(r => r.Id == id, cancellationToken);
     }
 
-    public Task<Role?> GetDefaultRoleAsync()
+    public Task<Role?> GetDefaultRoleAsync(CancellationToken cancellationToken)
     {
-        return DbContext.Roles.FirstOrDefaultAsync();
+        return DbContext.Roles.FirstOrDefaultAsync(cancellationToken);
     }
 }

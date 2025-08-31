@@ -5,5 +5,5 @@ namespace MyDotNetBase.Application.Abstractions.Data;
 
 public interface IUserRepository : IRepository<User, UserId>
 {
-    Task<User?> GetByUsernameAsync(string username);
+    Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken);
 }
