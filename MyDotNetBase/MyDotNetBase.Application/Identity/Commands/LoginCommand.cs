@@ -53,7 +53,7 @@ public sealed class LoginCommandHandler : ICommandHandler<LoginCommand, LoginCom
 
     public async Task<Result<LoginCommandResult>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByUsernameAsync(request.Username);
+        var user = await _userRepository.GetByUsernameAsync(request.Username, cancellationToken);
         if (user is null)
             return IdentityErrors.InvalidCredentials;
 

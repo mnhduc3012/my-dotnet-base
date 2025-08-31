@@ -49,7 +49,7 @@ public sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCom
     }
     public async Task<Result> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        var defaultRole = await _roleRepository.GetDefaultRoleAsync();
+        var defaultRole = await _roleRepository.GetDefaultRoleAsync(cancellationToken);
         if (defaultRole is null)
             return Error.NullValue;
 

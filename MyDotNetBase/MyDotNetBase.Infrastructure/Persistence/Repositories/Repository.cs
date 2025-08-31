@@ -9,7 +9,7 @@ public abstract class Repository<TEntity, TId>
     protected readonly ApplicationDbContext DbContext;
     protected Repository(ApplicationDbContext context) => DbContext = context;
 
-    public abstract Task<TEntity?> GetByIdAsync(TId id);
+    public abstract Task<TEntity?> GetByIdAsync(TId id, CancellationToken cancellationToken);
 
     public void Add(TEntity entity)
     {

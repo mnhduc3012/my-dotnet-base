@@ -4,27 +4,25 @@ using MyDotNetBase.Domain.Users.ValueObjects;
 
 namespace MyDotNetBase.Infrastructure.Persistence.Repositories;
 
-public class RefreshTokenRepository : Repository<RefreshToken, Guid>, IRefreshTokenRepository
+public class RefreshTokenRepository(ApplicationDbContext context) : 
+    Repository<RefreshToken, Guid>(context),
+    IRefreshTokenRepository
 {
-    public RefreshTokenRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-
-    public Task DeleteByUserIdAsync(UserId userId)
+    public Task DeleteByUserIdAsync(UserId userId, CancellationToken cancellationToken)
     {
         return DbContext.RefreshTokens
             .Where(rt => rt.UserId == userId)
-            .ExecuteDeleteAsync();
+            .ExecuteDeleteAsync(cancellationToken);
     }
 
-    public override Task<RefreshToken?> GetByIdAsync(Guid id)
+    public override Task<RefreshToken?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public Task<RefreshToken?> GetByTokenAsync(string token)
+    public Task<RefreshToken?> GetByTokenAsync(string token, CancellationToken cancellationToken)
     {
         return DbContext.RefreshTokens
-            .FirstOrDefaultAsync(rt => rt.Token == token);
+            .FirstOrDefaultAsync(rt => rt.Token == token, cancellationToken);
     }
 }

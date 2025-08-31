@@ -11,32 +11,31 @@ public abstract class ApiController : ControllerBase
 
     protected ApiController(ISender sender) => Sender = sender;
 
-    protected IActionResult HandleFailure(Result result) =>
-    result switch
-    {
-        { IsSuccess: true } =>
-            throw new InvalidOperationException("Cannot handle a successful result"),
+    protected IActionResult HandleFailure(Result result)
+        => result switch
+        {
+            { IsSuccess: true } =>
+                throw new InvalidOperationException("Cannot handle a successful result"),
 
-        { Error: ValidationError validationError } =>
-            BadRequest(CreateProblemDetails(
-                "Validation Error",
-                StatusCodes.Status400BadRequest,
-                validationError,
-                validationError.Errors)),
+            { Error: ValidationError validationError } =>
+                BadRequest(CreateProblemDetails(
+                    "Validation Error",
+                    StatusCodes.Status400BadRequest,
+                    validationError,
+                    validationError.Errors)),
 
-        { Error.Code: "Unauthorized" } =>
-            Unauthorized(CreateProblemDetails(
-                "Unauthorized",
-                StatusCodes.Status401Unauthorized,
-                result.Error)),
+            { Error.Code: "Unauthorized" } =>
+                Unauthorized(CreateProblemDetails(
+                    "Unauthorized",
+                    StatusCodes.Status401Unauthorized,
+                    result.Error)),
 
-        _ =>
-            BadRequest(CreateProblemDetails(
-                "Bad Request",
-                StatusCodes.Status400BadRequest,
-                result.Error))
-    };
-
+            _ =>
+                BadRequest(CreateProblemDetails(
+                    "Bad Request",
+                    StatusCodes.Status400BadRequest,
+                    result.Error))
+        };
 
     private static ProblemDetails CreateProblemDetails(
         string title,

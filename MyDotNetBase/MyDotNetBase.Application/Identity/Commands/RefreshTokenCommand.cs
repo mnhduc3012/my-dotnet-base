@@ -39,11 +39,17 @@ public sealed class RefreshTokenCommandHandler : ICommandHandler<RefreshTokenCom
     }
     public async Task<Result<RefreshTokenCommandResult>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        var existingRefreshToken = await _refreshTokenRepository.GetByTokenAsync(request.RefreshToken);
+        var existingRefreshToken = await _refreshTokenRepository.GetByTokenAsync(
+            request.RefreshToken,
+            cancellationToken);
+
         if (existingRefreshToken is null || existingRefreshToken.IsExpired())
             return IdentityErrors.InvalidRefreshToken;
 
-        var user = await _userRepository.GetByIdAsync(existingRefreshToken.UserId);
+        var user = await _userRepository.GetByIdAsync(
+            existingRefreshToken.UserId,
+            cancellationToken);
+
         if (user is null)
             return IdentityErrors.InvalidRefreshToken;
 

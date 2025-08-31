@@ -4,23 +4,21 @@ using MyDotNetBase.Domain.Users.ValueObjects;
 
 namespace MyDotNetBase.Infrastructure.Persistence.Repositories;
 
-public sealed class UserRepository : Repository<User, UserId>, IUserRepository
+public sealed class UserRepository(ApplicationDbContext context) : 
+    Repository<User, UserId>(context),
+    IUserRepository
 {
-    public UserRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-
-    public override Task<User?> GetByIdAsync(UserId userId)
+    public override Task<User?> GetByIdAsync(UserId userId, CancellationToken cancellationToken)
     {
         return DbContext.Users
             .Include(u => u.Roles)
-            .SingleOrDefaultAsync(u => u.Id == userId);
+            .SingleOrDefaultAsync(u => u.Id == userId, cancellationToken);
     }
 
-    public Task<User?> GetByUsernameAsync(string username)
+    public Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken)
     {
         return DbContext.Users
             .Include(u => u.Roles)
-            .SingleOrDefaultAsync(u => u.Username == username);
+            .SingleOrDefaultAsync(u => u.Username == username, cancellationToken);
     }
 }
