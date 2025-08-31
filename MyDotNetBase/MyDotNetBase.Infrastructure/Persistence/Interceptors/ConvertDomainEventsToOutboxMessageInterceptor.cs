@@ -5,8 +5,7 @@ using Newtonsoft.Json;
 
 namespace MyDotNetBase.Infrastructure.Persistence.Interceptors;
 
-public sealed class ConvertDomainEventsToOutboxMessageInterceptor
-    : SaveChangesInterceptor
+public sealed class ConvertDomainEventsToOutboxMessageInterceptor : SaveChangesInterceptor
 {
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
         DbContextEventData eventData,

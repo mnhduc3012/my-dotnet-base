@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MyDotNetBase.Application.Abstractions.Messaging;
 using MyDotNetBase.Domain.Shared.Entities;
 
 namespace MyDotNetBase.Api.Abstractions;
@@ -10,6 +11,39 @@ public abstract class ApiController : ControllerBase
     protected readonly ISender Sender;
 
     protected ApiController(ISender sender) => Sender = sender;
+
+    protected async Task<IActionResult> SendCommand(
+        ICommand command,
+        CancellationToken cancellationToken)
+    {
+        var result = await Sender.Send(command, cancellationToken);
+
+        return result.IsFailure
+            ? HandleFailure(result)
+            : Ok();
+    }
+
+    protected async Task<IActionResult> SendCommand<TResponse>(
+        ICommand<TResponse> command,
+        CancellationToken cancellationToken)
+    {
+        var result = await Sender.Send(command, cancellationToken);
+
+        return result.IsFailure
+            ? HandleFailure(result)
+            : Ok(result.Value);
+    }
+
+    protected async Task<IActionResult> SendQuery<TResponse>(
+        IQuery<TResponse> query,
+        CancellationToken cancellationToken)
+    {
+        var result = await Sender.Send(query, cancellationToken);
+
+        return result.IsFailure
+            ? HandleFailure(result)
+            : Ok(result.Value);
+    }
 
     protected IActionResult HandleFailure(Result result)
         => result switch

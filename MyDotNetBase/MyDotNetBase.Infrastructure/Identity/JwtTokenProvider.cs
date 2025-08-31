@@ -14,9 +14,7 @@ public sealed class JwtTokenProvider : ITokenProvider
 {
     private readonly JwtConfiguration _jwtConfiguration;
     public JwtTokenProvider(IOptions<JwtConfiguration> jwtConfiguration)
-    {
-        _jwtConfiguration = jwtConfiguration.Value;
-    }
+        => _jwtConfiguration = jwtConfiguration.Value;
 
     public string GenerateAccessToken(User user)
     {
