@@ -5,11 +5,12 @@ using MyDotNetBase.Infrastructure.Persistence;
 using Newtonsoft.Json;
 using Quartz;
 
-namespace MyDotNetBase.Infrastructure.BackgroundJobs;
+namespace MyDotNetBase.Infrastructure.Outbox;
 
 public sealed class ProcessOutboxMessagesJob : IJob
 {
     private const int MaxRetryCount = 3;
+    private const int BatchSize = 20;
     private readonly ApplicationDbContext _dbContext;
     private readonly IPublisher _publisher;
     private readonly ILogger<ProcessOutboxMessagesJob> _logger;
@@ -29,7 +30,7 @@ public sealed class ProcessOutboxMessagesJob : IJob
         var messages = await _dbContext.OutboxMessages
             .Where(m => m.ProcessedOn == null && m.RetryCount < MaxRetryCount)
             .OrderBy(m => m.OccurredOn)
-            .Take(20)
+            .Take(BatchSize)
             .ToListAsync(context.CancellationToken);
 
         foreach (var outboxMessage in messages)
@@ -53,6 +54,7 @@ public sealed class ProcessOutboxMessagesJob : IJob
             {
                 _logger.LogError(ex, "Error publishing outbox message with ID {OutboxMessageId}", outboxMessage.Id);
                 outboxMessage.RetryCount++;
+                outboxMessage.Error = $"{ex.Message}. {ex.StackTrace}";
             }
         }
 

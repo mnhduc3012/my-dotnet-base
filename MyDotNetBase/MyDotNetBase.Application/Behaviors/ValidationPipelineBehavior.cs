@@ -1,6 +1,4 @@
-﻿using MyDotNetBase.Domain.Shared.Enums;
-
-namespace MyDotNetBase.Application.Behaviors;
+﻿namespace MyDotNetBase.Application.Behaviors;
 
 public class ValidationPipelineBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
@@ -35,7 +33,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse>
         if (failures.Length > 0)
         {
             var errors = failures
-                .Select(f => new Error(f.PropertyName, f.ErrorMessage, ErrorType.Validation))
+                .Select(f => new Error(f.PropertyName, f.ErrorMessage))
                 .Distinct()
                 .ToArray();
 

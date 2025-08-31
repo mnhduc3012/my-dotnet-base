@@ -1,14 +1,11 @@
-﻿using MyDotNetBase.Domain.Shared.Enums;
-
-namespace MyDotNetBase.Domain.Shared.Entities;
+﻿namespace MyDotNetBase.Domain.Shared.Entities;
 
 public sealed record ValidationError : Error
 {
     public ValidationError(Error[] errors)
         : base(
             "Validation.General",
-            "One or more validation errors occurred",
-            ErrorType.Validation)
+            "Một số thông tin chưa hợp lệ, vui lòng kiểm tra lại.")
     {
         Errors = errors;
     }

@@ -17,4 +17,9 @@
     <ProjectReference Include="..\MyDotNetBase.Domain\MyDotNetBase.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Users\Commands\" />
+    <Folder Include="Users\EventHandlers\" />
+  </ItemGroup>
+
 </Project>

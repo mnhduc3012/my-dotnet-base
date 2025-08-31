@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MyDotNetBase.Infrastructure.Persistence.Outbox;
+using MyDotNetBase.Infrastructure.Outbox;
 
 namespace MyDotNetBase.Infrastructure.Persistence.Configurations;
 
