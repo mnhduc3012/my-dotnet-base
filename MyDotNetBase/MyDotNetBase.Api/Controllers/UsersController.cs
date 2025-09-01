@@ -5,12 +5,12 @@ namespace MyDotNetBase.Api.Controllers;
 [Route("api/users")]
 public sealed class UsersController(ISender sender) : ApiController(sender)
 {
-    [HttpGet("{id}")]
+    [HttpGet("{userId}")]
     public async Task<IActionResult> GetUserById(
-        [FromRoute] Guid id,
+        [FromRoute] string userId,
         CancellationToken cancellationToken)
     {
-        var query = new GetUserByIdQuery(id);
-        return await SendQuery(query, cancellationToken);
+        var query = new GetUserByIdQuery(userId);
+        return await SendQueryAsync(query, cancellationToken);
     }
 }

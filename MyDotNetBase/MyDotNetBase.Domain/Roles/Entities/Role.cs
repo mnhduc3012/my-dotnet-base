@@ -20,7 +20,7 @@ public sealed class Role : AggregateRoot<RoleId>
     public static Result<Role> Create(
         string name,
         string description,
-        List<Permission> permissions)
+        List<string> permissions)
     {
         if (string.IsNullOrWhiteSpace(name))
             return RoleErrors.EmptyRoleName;
@@ -31,20 +31,61 @@ public sealed class Role : AggregateRoot<RoleId>
             description);
 
         foreach (var permission in permissions)
-            role.AddPermission(permission);
+        {
+            var result = role.AddPermission(permission);
+            if (result.IsFailure)
+                return result.Error;
+        }
 
         return role;
     }
 
-    public void AddPermission(Permission permission)
+    public static Result<Role> Update(
+        Role role,
+        string name,
+        string description,
+        List<string> permissions)
     {
-        var rolePermission = new RolePermission(permission);
-        if (!_permissions.Contains(rolePermission))
-            _permissions.Add(rolePermission);
+        if (string.IsNullOrWhiteSpace(name))
+            return RoleErrors.EmptyRoleName;
+
+        role.Name = name;
+        role.Description = description;
+        role.ClearPermissions();
+        foreach (var permission in permissions)
+        {
+            var result = role.AddPermission(permission);
+            if (result.IsFailure)
+                return result.Error;
+        }
+        return role;
     }
 
-    public void RemovePermission(Permission permission)
+    public Result AddPermission(string permission)
     {
-        _permissions.Remove(new RolePermission(permission));
+        var rolePermissionOrError = RolePermission.Create(permission);
+        if (rolePermissionOrError.IsFailure)
+            return rolePermissionOrError.Error;
+
+        if (!_permissions.Contains(rolePermissionOrError.Value))
+            _permissions.Add(rolePermissionOrError.Value);
+
+        return Result.Success();
+    }
+
+    public Result RemovePermission(string permission)
+    {
+        var rolePermissionOrError = RolePermission.Create(permission);
+        if (rolePermissionOrError.IsFailure)
+            return rolePermissionOrError.Error;
+
+        _permissions.Remove(rolePermissionOrError.Value);
+
+        return Result.Success();
+    }
+
+    private void ClearPermissions()
+    {
+        _permissions.Clear();
     }
 }

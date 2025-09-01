@@ -27,6 +27,8 @@ builder.Services.AddSwaggerGenWithAuthentication();
 
 var app = builder.Build();
 
+app.MapHealthChecks("/");
+
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
@@ -36,12 +38,11 @@ app.UseSerilogRequestLogging();
 
 app.UseRouting();
 
-app.UseAuthorization();
-
-app.UseAuthentication();
-
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

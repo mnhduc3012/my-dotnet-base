@@ -30,7 +30,8 @@ public static class DependencyInjection
             .AddDatabaseServices(configuration)
             .AddIdentityServices(configuration)
             .AddDomainServices()
-            .AddBackgroundJobsServices();
+            .AddBackgroundJobsServices()
+            .AddInfrastructureHealthChecks();
 
         return services;
     }
@@ -44,6 +45,7 @@ public static class DependencyInjection
         if (string.IsNullOrWhiteSpace(connectionString))
             throw new InvalidOperationException("Connection string 'DefaultConnection' is missing.");
 
+        services.AddScoped<ISaveChangesInterceptor, SoftDeleteSaveChangesInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, AuditSaveChangesInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, ConvertDomainEventsToOutboxMessageInterceptor>();
 
@@ -53,11 +55,8 @@ public static class DependencyInjection
                    .UseSnakeCaseNamingConvention()
                    .AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
         });
-
-        services.AddScoped<IDbConnectionFactory>(_ => new NpgsqlConnectionFactory(connectionString));
-
         services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<ApplicationDbContext>());
-
+        services.AddScoped<IDbConnectionFactory>(_ => new NpgsqlConnectionFactory(connectionString));
         services.AddScoped<IStoredProcedureExecutor, DapperStoredProcedureExecutor>();
 
         services.AddScoped<IUserRepository, UserRepository>();
@@ -67,7 +66,9 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddIdentityServices(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.Configure<JwtConfiguration>(configuration.GetSection("Jwt"));
 
@@ -128,6 +129,15 @@ public static class DependencyInjection
         {
             options.WaitForJobsToComplete = true;
         });
+
+        return services;
+    }
+
+    private static IServiceCollection AddInfrastructureHealthChecks(this IServiceCollection services)
+    {
+        services
+            .AddHealthChecks()
+            .AddDbContextCheck<ApplicationDbContext>();
 
         return services;
     }

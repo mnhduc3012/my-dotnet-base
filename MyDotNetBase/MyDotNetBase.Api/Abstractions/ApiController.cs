@@ -1,6 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using MyDotNetBase.Application.Abstractions.Messaging;
+﻿using MyDotNetBase.Application.Abstractions.Messaging;
 using MyDotNetBase.Domain.Shared.Entities;
 
 namespace MyDotNetBase.Api.Abstractions;
@@ -12,7 +10,7 @@ public abstract class ApiController : ControllerBase
 
     protected ApiController(ISender sender) => Sender = sender;
 
-    protected async Task<IActionResult> SendCommand(
+    protected async Task<IActionResult> SendCommandAsync(
         ICommand command,
         CancellationToken cancellationToken)
     {
@@ -23,7 +21,7 @@ public abstract class ApiController : ControllerBase
             : Ok();
     }
 
-    protected async Task<IActionResult> SendCommand<TResponse>(
+    protected async Task<IActionResult> SendCommandAsync<TResponse>(
         ICommand<TResponse> command,
         CancellationToken cancellationToken)
     {
@@ -34,7 +32,7 @@ public abstract class ApiController : ControllerBase
             : Ok(result.Value);
     }
 
-    protected async Task<IActionResult> SendQuery<TResponse>(
+    protected async Task<IActionResult> SendQueryAsync<TResponse>(
         IQuery<TResponse> query,
         CancellationToken cancellationToken)
     {

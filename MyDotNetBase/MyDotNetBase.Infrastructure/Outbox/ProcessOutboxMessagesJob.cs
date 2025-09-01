@@ -38,7 +38,7 @@ public sealed class ProcessOutboxMessagesJob : IJob
             try
             {
                 IDomainEvent? domainEvent = JsonConvert
-                .DeserializeObject<IDomainEvent>(outboxMessage.Content);
+                    .DeserializeObject<IDomainEvent>(outboxMessage.Content);
 
                 if (domainEvent == null)
                 {

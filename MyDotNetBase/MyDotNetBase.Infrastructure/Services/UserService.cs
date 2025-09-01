@@ -12,6 +12,6 @@ public sealed class UserService :
     public async Task<bool> IsUniqueEmail(Email email)
     {
         return !await _context.Users
-            .AnyAsync(u => u.Email.Value == email);
+            .AnyAsync(u => u.Email == email);
     }
 }
