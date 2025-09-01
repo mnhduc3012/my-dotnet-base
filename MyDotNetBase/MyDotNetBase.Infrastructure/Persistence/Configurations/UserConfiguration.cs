@@ -32,5 +32,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .HasMany(u => u.Roles)
             .WithMany();
+
+        builder
+            .HasQueryFilter(u => !u.IsDeleted);
     }
 }

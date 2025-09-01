@@ -34,5 +34,8 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
             .HasOne(rt => rt.User)
             .WithMany()
             .HasForeignKey(rt => rt.UserId);
+
+        builder
+            .HasQueryFilter(rt => !rt.IsDeleted);
     }
 }
