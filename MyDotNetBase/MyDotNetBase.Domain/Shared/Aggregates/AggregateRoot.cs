@@ -1,10 +1,15 @@
 ﻿using MyDotNetBase.Domain.Shared.Auditing;
 using MyDotNetBase.Domain.Shared.DomainEvents;
 using MyDotNetBase.Domain.Shared.Entities;
+using MyDotNetBase.Domain.Shared.SoftDelete;
 
 namespace MyDotNetBase.Domain.Shared.Aggregates;
 
-public abstract class AggregateRoot<TId> : Entity<TId>, IAuditable, IHasDomainEvents
+public abstract class AggregateRoot<TId> :
+    Entity<TId>,
+    IAuditable,
+    IHasDomainEvents,
+    ISoftDeletable
     where TId : notnull
 {
     private readonly List<IDomainEvent> _domainEvents = [];
@@ -15,10 +20,11 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IAuditable, IHasDomainEv
     protected void RaiseDomainEvent(IDomainEvent @event) => _domainEvents.Add(@event);
     public void ClearDomainEvents() => _domainEvents.Clear();
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public string? CreatedBy { get; set; } = null;
-    public DateTime? UpdatedAt { get; set; } = null;
-    public string? UpdatedBy { get; set; } = null;
+    public DateTime CreatedAt { get; set; }
+    public string? CreatedBy { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+    public string? UpdatedBy { get; set; }
+    public bool IsDeleted { get; set; } = false;
 }
 
 

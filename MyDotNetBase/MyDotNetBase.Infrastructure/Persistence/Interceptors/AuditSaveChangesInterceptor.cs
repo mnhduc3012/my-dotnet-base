@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using MyDotNetBase.Application.Abstractions.Authentication;
+using MyDotNetBase.Domain.Shared.Auditing;
 
 namespace MyDotNetBase.Infrastructure.Persistence.Interceptors;
 
@@ -20,24 +21,25 @@ public sealed class AuditSaveChangesInterceptor : SaveChangesInterceptor
 
         var userId = _userContext.UserId ?? "System";
 
-        foreach (var entry in dbContext.ChangeTracker.Entries())
-        {
-            if (entry.State == EntityState.Added)
-            {
-                if (entry.Metadata.FindProperty("CreatedAt") != null)
-                    entry.CurrentValues["CreatedAt"] = DateTime.UtcNow;
+        var auditableEntries = dbContext.ChangeTracker
+           .Entries<IAuditable>()
+           .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified)
+           .ToList();
 
-                if (entry.Metadata.FindProperty("CreatedBy") != null)
-                    entry.CurrentValues["CreatedBy"] = userId;
+        foreach (var auditableEntry in auditableEntries)
+        {
+            var auditableEntity = auditableEntry.Entity;
+
+            if (auditableEntry.State == EntityState.Added)
+            {
+                auditableEntity.CreatedAt = DateTime.UtcNow;
+                auditableEntity.CreatedBy = userId;
             }
 
-            if (entry.State == EntityState.Modified)
+            if (auditableEntry.State == EntityState.Modified)
             {
-                if (entry.Metadata.FindProperty("UpdatedAt") != null)
-                    entry.CurrentValues["UpdatedAt"] = DateTime.UtcNow;
-
-                if (entry.Metadata.FindProperty("UpdatedBy") != null)
-                    entry.CurrentValues["UpdatedBy"] = userId;
+                auditableEntity.UpdatedAt = DateTime.UtcNow;
+                auditableEntity.UpdatedBy = userId;
             }
         }
 

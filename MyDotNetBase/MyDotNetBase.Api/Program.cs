@@ -3,6 +3,7 @@ using MyDotNetBase.Api.Infrastructure;
 using MyDotNetBase.Application;
 using MyDotNetBase.Infrastructure;
 using Serilog;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,12 @@ builder.Services
     .AddApplicationServices()
     .AddApiServices();
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
@@ -26,6 +32,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGenWithAuthentication();
 
 var app = builder.Build();
+
+app.MapHealthChecks("/");
 
 app.UseExceptionHandler();
 
@@ -36,12 +44,11 @@ app.UseSerilogRequestLogging();
 
 app.UseRouting();
 
-app.UseAuthorization();
-
-app.UseAuthentication();
-
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

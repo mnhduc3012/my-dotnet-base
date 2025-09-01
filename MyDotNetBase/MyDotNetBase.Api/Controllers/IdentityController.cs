@@ -14,7 +14,7 @@ public class IdentityController(ISender sender) : ApiController(sender)
         var command = new LoginCommand(
             request.Username,
             request.Password);
-        return await SendCommand(command, cancellationToken);
+        return await SendCommandAsync(command, cancellationToken);
     }
 
     [HttpPost("refresh-token")]
@@ -23,7 +23,7 @@ public class IdentityController(ISender sender) : ApiController(sender)
         CancellationToken cancellationToken)
     {
         var command = new RefreshTokenCommand(request.RefreshToken);
-        return await SendCommand(command, cancellationToken);
+        return await SendCommandAsync(command, cancellationToken);
     }
 
     [HttpPost("register")]
@@ -35,6 +35,6 @@ public class IdentityController(ISender sender) : ApiController(sender)
             request.Email,
             request.FullName,
             request.Password);
-        return await SendCommand(command, cancellationToken);
+        return await SendCommandAsync(command, cancellationToken);
     }
 }

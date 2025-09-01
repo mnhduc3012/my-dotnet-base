@@ -22,17 +22,18 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .ValueGeneratedNever();
 
         builder
-            .OwnsOne(u => u.Email, email =>
-            {
-                email.Property(e => e.Value)
-                    .HasColumnName("email")
-                    .IsRequired();
-
-                email.HasIndex(e => e.Value).IsUnique();
-            });
+            .Property(u => u.Email)
+            .HasConversion(
+                email => email.Value,
+                value => Email.Create(value).Value);
+            
+        builder.HasIndex(u => u.Email).IsUnique();
 
         builder
             .HasMany(u => u.Roles)
             .WithMany();
+
+        builder
+            .HasQueryFilter(u => !u.IsDeleted);
     }
 }

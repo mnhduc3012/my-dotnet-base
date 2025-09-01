@@ -41,5 +41,8 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
 
             rp.HasKey("RoleId", "Permission");
         });
+
+        builder
+            .HasQueryFilter(r => !r.IsDeleted);
     }
 }

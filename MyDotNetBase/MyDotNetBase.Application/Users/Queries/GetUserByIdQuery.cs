@@ -1,13 +1,21 @@
-﻿using MyDotNetBase.Application.Abstractions.Data;
-using MyDotNetBase.Application.Abstractions.Messaging;
-using MyDotNetBase.Domain.Users.Entities;
+﻿using MyDotNetBase.Domain.Users.Entities;
 using MyDotNetBase.Domain.Users.ValueObjects;
 
 namespace MyDotNetBase.Application.Users.Queries;
 
 public sealed record GetUserByIdQuery(
-    Guid UserId
+    string UserId
 ) : IQuery<User>;
+
+public sealed class GetUserByIdQueryValidator : AbstractValidator<GetUserByIdQuery>
+{
+    public GetUserByIdQueryValidator()
+    {
+        RuleFor(x => x.UserId)
+            .NotEmpty().WithMessage("User ID is required.")
+            .Must(id => Guid.TryParse(id, out _)).WithMessage("User ID must be a valid GUID.");
+    }
+}
 
 public sealed class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, User>
 {
@@ -19,6 +27,7 @@ public sealed class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, Us
 
     public async Task<Result<User>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        return await _userRepository.GetByIdAsync(new UserId(request.UserId), cancellationToken);
+        var userId = new UserId(Guid.Parse(request.UserId));
+        return await _userRepository.GetByIdAsync(userId, cancellationToken);
     }
 }
