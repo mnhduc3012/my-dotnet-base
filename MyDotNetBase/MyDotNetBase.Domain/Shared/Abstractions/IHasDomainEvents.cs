@@ -1,4 +1,4 @@
-﻿namespace MyDotNetBase.Domain.Shared.DomainEvents;
+﻿namespace MyDotNetBase.Domain.Shared.Abstractions;
 
 public interface IHasDomainEvents
 {

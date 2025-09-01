@@ -1,4 +1,4 @@
-﻿namespace MyDotNetBase.Domain.Shared.Auditing;
+﻿namespace MyDotNetBase.Domain.Shared.Abstractions;
 
 public interface IAuditable
 {

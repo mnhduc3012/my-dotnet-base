@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace MyDotNetBase.Domain.Shared.Entities;
+namespace MyDotNetBase.Domain.Shared.Results;
 
 public class Result
 {

@@ -2,6 +2,7 @@
 using MyDotNetBase.Application.Abstractions.Data;
 using MyDotNetBase.Domain.Identity.Entities;
 using MyDotNetBase.Domain.Identity.Errors;
+using MyDotNetBase.Domain.Shared.Results;
 using MyDotNetBase.Domain.Users.Errors;
 
 namespace MyDotNetBase.Application.Identity.Commands;

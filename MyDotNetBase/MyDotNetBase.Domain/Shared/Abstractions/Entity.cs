@@ -1,4 +1,4 @@
-﻿namespace MyDotNetBase.Domain.Shared.Entities;
+﻿namespace MyDotNetBase.Domain.Shared.Abstractions;
 
 public abstract class Entity<TId> where TId : notnull
 {

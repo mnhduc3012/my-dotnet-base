@@ -1,5 +1,5 @@
 ﻿using MyDotNetBase.Application.Abstractions.Messaging;
-using MyDotNetBase.Domain.Shared.Entities;
+using MyDotNetBase.Domain.Shared.Results;
 
 namespace MyDotNetBase.Api.Abstractions;
 

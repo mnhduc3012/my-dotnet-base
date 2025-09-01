@@ -1,4 +1,6 @@
-﻿namespace MyDotNetBase.Application.Abstractions.Messaging;
+﻿using MyDotNetBase.Domain.Shared.Results;
+
+namespace MyDotNetBase.Application.Abstractions.Messaging;
 
 public interface ICommandHandler<in TCommand> : IRequestHandler<TCommand, Result>
     where TCommand : ICommand;

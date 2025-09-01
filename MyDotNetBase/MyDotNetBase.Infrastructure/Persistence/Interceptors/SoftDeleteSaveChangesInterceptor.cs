@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
-using MyDotNetBase.Domain.Shared.SoftDelete;
+using MyDotNetBase.Domain.Shared.Abstractions;
 
 namespace MyDotNetBase.Infrastructure.Persistence.Interceptors;
 

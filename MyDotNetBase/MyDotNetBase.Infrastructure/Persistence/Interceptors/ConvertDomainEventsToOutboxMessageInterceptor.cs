@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
-using MyDotNetBase.Domain.Shared.DomainEvents;
+using MyDotNetBase.Domain.Shared.Abstractions;
 using MyDotNetBase.Infrastructure.Outbox;
 using Newtonsoft.Json;
 

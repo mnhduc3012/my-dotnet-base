@@ -1,4 +1,6 @@
-﻿namespace MyDotNetBase.Application.Behaviors;
+﻿using MyDotNetBase.Domain.Shared.Results;
+
+namespace MyDotNetBase.Application.Behaviors;
 
 public class ValidationPipelineBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>

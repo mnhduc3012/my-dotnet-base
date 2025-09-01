@@ -1,4 +1,4 @@
-﻿namespace MyDotNetBase.Domain.Shared.SoftDelete;
+﻿namespace MyDotNetBase.Domain.Shared.Abstractions;
 
 public interface ISoftDeletable
 {

@@ -1,5 +1,6 @@
 ﻿using MyDotNetBase.Domain.Roles.Entities;
 using MyDotNetBase.Domain.Roles.Enums;
+using MyDotNetBase.Domain.Shared.Results;
 
 namespace MyDotNetBase.Application.Roles.Commands;
 

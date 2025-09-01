@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using MyDotNetBase.Domain.Shared.DomainEvents;
+using MyDotNetBase.Domain.Shared.Abstractions;
 using MyDotNetBase.Infrastructure.Persistence;
 using Newtonsoft.Json;
 using Quartz;

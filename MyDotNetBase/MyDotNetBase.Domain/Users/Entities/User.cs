@@ -1,6 +1,6 @@
 ﻿using MyDotNetBase.Domain.Roles.Entities;
-using MyDotNetBase.Domain.Shared.Aggregates;
-using MyDotNetBase.Domain.Shared.Entities;
+using MyDotNetBase.Domain.Shared.Abstractions;
+using MyDotNetBase.Domain.Shared.Results;
 using MyDotNetBase.Domain.Users.Errors;
 using MyDotNetBase.Domain.Users.Events;
 using MyDotNetBase.Domain.Users.Services;

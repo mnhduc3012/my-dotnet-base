@@ -1,8 +1,8 @@
 ﻿using MyDotNetBase.Domain.Roles.Enums;
 using MyDotNetBase.Domain.Roles.Errors;
 using MyDotNetBase.Domain.Roles.ValueObjects;
-using MyDotNetBase.Domain.Shared.Aggregates;
-using MyDotNetBase.Domain.Shared.Entities;
+using MyDotNetBase.Domain.Shared.Abstractions;
+using MyDotNetBase.Domain.Shared.Results;
 
 namespace MyDotNetBase.Domain.Roles.Entities;
 

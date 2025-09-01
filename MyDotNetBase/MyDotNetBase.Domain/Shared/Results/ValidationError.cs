@@ -1,4 +1,4 @@
-﻿namespace MyDotNetBase.Domain.Shared.Entities;
+﻿namespace MyDotNetBase.Domain.Shared.Results;
 
 public sealed record ValidationError : Error
 {

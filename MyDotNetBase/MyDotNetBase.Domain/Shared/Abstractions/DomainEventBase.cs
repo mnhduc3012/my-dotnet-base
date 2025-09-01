@@ -1,4 +1,4 @@
-﻿namespace MyDotNetBase.Domain.Shared.DomainEvents;
+﻿namespace MyDotNetBase.Domain.Shared.Abstractions;
 
 public abstract record DomainEventBase : IDomainEvent
 {

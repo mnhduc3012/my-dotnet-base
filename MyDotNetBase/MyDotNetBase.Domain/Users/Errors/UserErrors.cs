@@ -1,4 +1,4 @@
-﻿using MyDotNetBase.Domain.Shared.Entities;
+﻿using MyDotNetBase.Domain.Shared.Results;
 using MyDotNetBase.Domain.Users.ValueObjects;
 
 namespace MyDotNetBase.Domain.Users.Errors;
