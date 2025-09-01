@@ -1,4 +1,5 @@
 ﻿using MyDotNetBase.Application.Abstractions.Authentication;
+using MyDotNetBase.Domain.Shared.Results;
 using MyDotNetBase.Domain.Users.Entities;
 using MyDotNetBase.Domain.Users.Services;
 

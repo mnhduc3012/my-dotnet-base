@@ -1,9 +1,4 @@
-﻿using MyDotNetBase.Domain.Shared.Auditing;
-using MyDotNetBase.Domain.Shared.DomainEvents;
-using MyDotNetBase.Domain.Shared.Entities;
-using MyDotNetBase.Domain.Shared.SoftDelete;
-
-namespace MyDotNetBase.Domain.Shared.Aggregates;
+﻿namespace MyDotNetBase.Domain.Shared.Abstractions;
 
 public abstract class AggregateRoot<TId> :
     Entity<TId>,

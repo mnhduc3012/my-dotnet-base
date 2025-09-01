@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using MyDotNetBase.Domain.Shared.Results;
 using Serilog.Context;
 
 namespace MyDotNetBase.Application.Behaviors

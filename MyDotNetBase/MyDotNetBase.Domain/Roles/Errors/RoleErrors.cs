@@ -1,4 +1,4 @@
-﻿using MyDotNetBase.Domain.Shared.Entities;
+﻿using MyDotNetBase.Domain.Shared.Results;
 
 namespace MyDotNetBase.Domain.Roles.Errors;
 public class RoleErrors

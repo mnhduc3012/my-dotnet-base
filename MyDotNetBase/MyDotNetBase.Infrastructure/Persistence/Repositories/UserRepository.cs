@@ -4,7 +4,7 @@ using MyDotNetBase.Domain.Users.ValueObjects;
 
 namespace MyDotNetBase.Infrastructure.Persistence.Repositories;
 
-public sealed class UserRepository(ApplicationDbContext context) : 
+public sealed class UserRepository(ApplicationDbContext context) :
     Repository<User, UserId>(context),
     IUserRepository
 {

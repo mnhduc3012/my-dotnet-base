@@ -1,4 +1,4 @@
-﻿using MyDotNetBase.Domain.Shared.Aggregates;
+﻿using MyDotNetBase.Domain.Shared.Abstractions;
 
 namespace MyDotNetBase.Application.Abstractions.Data;
 

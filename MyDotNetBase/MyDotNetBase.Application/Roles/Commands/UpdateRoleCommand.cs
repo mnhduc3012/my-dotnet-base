@@ -2,6 +2,7 @@
 using MyDotNetBase.Domain.Roles.Enums;
 using MyDotNetBase.Domain.Roles.Errors;
 using MyDotNetBase.Domain.Roles.ValueObjects;
+using MyDotNetBase.Domain.Shared.Results;
 
 namespace MyDotNetBase.Application.Roles.Commands;
 

@@ -1,4 +1,4 @@
-﻿using MyDotNetBase.Domain.Shared.Aggregates;
+﻿using MyDotNetBase.Domain.Shared.Abstractions;
 using MyDotNetBase.Domain.Users.Entities;
 using MyDotNetBase.Domain.Users.ValueObjects;
 

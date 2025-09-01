@@ -1,4 +1,5 @@
-﻿using MyDotNetBase.Domain.Users.Entities;
+﻿using MyDotNetBase.Domain.Shared.Results;
+using MyDotNetBase.Domain.Users.Entities;
 using MyDotNetBase.Domain.Users.ValueObjects;
 
 namespace MyDotNetBase.Application.Users.Queries;

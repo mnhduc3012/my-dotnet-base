@@ -1,5 +1,6 @@
 ﻿using MyDotNetBase.Application.Abstractions.Authentication;
 using MyDotNetBase.Domain.Identity.Errors;
+using MyDotNetBase.Domain.Shared.Results;
 
 namespace MyDotNetBase.Application.Identity.Commands;
 

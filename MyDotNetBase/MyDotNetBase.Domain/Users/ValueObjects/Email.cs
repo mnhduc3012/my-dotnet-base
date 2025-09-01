@@ -1,4 +1,4 @@
-﻿using MyDotNetBase.Domain.Shared.Entities;
+﻿using MyDotNetBase.Domain.Shared.Results;
 using MyDotNetBase.Domain.Users.Errors;
 using System.Net.Mail;
 

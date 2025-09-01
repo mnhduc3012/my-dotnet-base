@@ -1,5 +1,6 @@
 ﻿using MyDotNetBase.Api.Contracts.Role;
 using MyDotNetBase.Application.Roles.Commands;
+using MyDotNetBase.Application.Roles.Queries;
 
 namespace MyDotNetBase.Api.Controllers;
 
@@ -7,7 +8,7 @@ namespace MyDotNetBase.Api.Controllers;
 public class RolesController(ISender sender) : ApiController(sender)
 {
     [HttpPost]
-    public async Task<IActionResult> Create(
+    public Task<IActionResult> Create(
         [FromBody] CreateRoleRequest request,
         CancellationToken cancellationToken)
     {
@@ -15,11 +16,11 @@ public class RolesController(ISender sender) : ApiController(sender)
             request.Name,
             request.Description,
             request.Permissions);
-        return await SendCommandAsync(command, cancellationToken);
+        return SendCommandAsync(command, cancellationToken);
     }
 
     [HttpPut]
-    public async Task<IActionResult> Update(
+    public Task<IActionResult> Update(
         [FromBody] UpdateRoleRequest request,
         CancellationToken cancellationToken)
     {
@@ -28,15 +29,22 @@ public class RolesController(ISender sender) : ApiController(sender)
             request.Name,
             request.Description,
             request.Permissions);
-        return await SendCommandAsync(command, cancellationToken);
+        return SendCommandAsync(command, cancellationToken);
     }
 
     [HttpDelete("{roleId}")]
-    public async Task<IActionResult> Delete(
+    public Task<IActionResult> Delete(
         [FromRoute] string roleId,
         CancellationToken cancellationToken)
     {
         var command = new DeleteRoleCommand(roleId);
-        return await SendCommandAsync(command, cancellationToken);
+        return SendCommandAsync(command, cancellationToken);
+    }
+
+    [HttpGet("permissions")]
+    public Task<IActionResult> GetPermissions(CancellationToken cancellationToken)
+    {
+        var query = new GetAllPermissionsQuery();
+        return SendQueryAsync(query, cancellationToken);
     }
 }

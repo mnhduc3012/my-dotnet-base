@@ -7,27 +7,27 @@ namespace MyDotNetBase.Api.Controllers;
 public class IdentityController(ISender sender) : ApiController(sender)
 {
     [HttpPost("login")]
-    public async Task<IActionResult> Login(
+    public Task<IActionResult> Login(
         [FromBody] LoginRequest request,
         CancellationToken cancellationToken)
     {
         var command = new LoginCommand(
             request.Username,
             request.Password);
-        return await SendCommandAsync(command, cancellationToken);
+        return SendCommandAsync(command, cancellationToken);
     }
 
     [HttpPost("refresh-token")]
-    public async Task<IActionResult> RefreshToken(
+    public Task<IActionResult> RefreshToken(
         [FromBody] RefreshTokenRequest request,
         CancellationToken cancellationToken)
     {
         var command = new RefreshTokenCommand(request.RefreshToken);
-        return await SendCommandAsync(command, cancellationToken);
+        return SendCommandAsync(command, cancellationToken);
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> RegisterUser(
+    public Task<IActionResult> RegisterUser(
         [FromBody] RegisterUserRequest request,
         CancellationToken cancellationToken)
     {
@@ -35,6 +35,6 @@ public class IdentityController(ISender sender) : ApiController(sender)
             request.Email,
             request.FullName,
             request.Password);
-        return await SendCommandAsync(command, cancellationToken);
+        return SendCommandAsync(command, cancellationToken);
     }
 }

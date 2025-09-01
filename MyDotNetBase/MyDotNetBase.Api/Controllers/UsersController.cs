@@ -6,11 +6,11 @@ namespace MyDotNetBase.Api.Controllers;
 public sealed class UsersController(ISender sender) : ApiController(sender)
 {
     [HttpGet("{userId}")]
-    public async Task<IActionResult> GetUserById(
+    public Task<IActionResult> GetUserById(
         [FromRoute] string userId,
         CancellationToken cancellationToken)
     {
         var query = new GetUserByIdQuery(userId);
-        return await SendQueryAsync(query, cancellationToken);
+        return SendQueryAsync(query, cancellationToken);
     }
 }

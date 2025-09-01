@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using MyDotNetBase.Application.Abstractions.Authentication;
-using MyDotNetBase.Domain.Shared.Auditing;
+using MyDotNetBase.Domain.Shared.Abstractions;
 
 namespace MyDotNetBase.Infrastructure.Persistence.Interceptors;
 
