@@ -13,7 +13,7 @@ public class EmailSender : IEmailSender
         _emailConfiguration = emailConfiguration.Value;
     }
 
-    public async Task SendEmailAsync(string to, string subject, string body)
+    public async Task SendEmailAsync(string to, string subject, string body, CancellationToken cancellationToken)
     {
         using var client = new SmtpClient(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort)
         {
@@ -31,6 +31,6 @@ public class EmailSender : IEmailSender
 
         message.To.Add(to);
 
-        await client.SendMailAsync(message);
+        await client.SendMailAsync(message, cancellationToken);
     }
 }

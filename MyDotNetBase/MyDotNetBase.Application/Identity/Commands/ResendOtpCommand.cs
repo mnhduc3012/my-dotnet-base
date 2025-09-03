@@ -50,8 +50,7 @@ public sealed class ResendOtpCommandHandler : ICommandHandler<ResendOtpCommand>
         {
             otp = Otp.Create(
                  emailOrError.Value,
-                 newOtpCode,
-                 user.FullName);
+                 newOtpCode);
 
             _otpRepository.Add(otp);
         }
@@ -60,7 +59,7 @@ public sealed class ResendOtpCommandHandler : ICommandHandler<ResendOtpCommand>
             if (otp.IsValid())
                 return IdentityErrors.OtpAlreadySent;
 
-            otp.ResendOtp(user.FullName, newOtpCode);
+            otp.ResendOtp(newOtpCode);
 
             _otpRepository.Update(otp);
         }

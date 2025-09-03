@@ -37,10 +37,22 @@ public sealed class ProcessOutboxMessagesJob : IJob
         {
             try
             {
-                IDomainEvent? domainEvent = JsonConvert
-                    .DeserializeObject<IDomainEvent>(outboxMessage.Content);
+                var type = Type.GetType(outboxMessage.Type);
+                if (type is null)
+                {
+                    _logger.LogWarning("Unknown event type {EventType} for OutboxMessage {OutboxMessageId}", outboxMessage.Type, outboxMessage.Id);
+                    continue;
+                }
 
-                if (domainEvent == null)
+                var domainEvent = (IDomainEvent?)JsonConvert.DeserializeObject(
+                    outboxMessage.Content,
+                    type,
+                    new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.All
+                    });
+
+                if (domainEvent is null)
                 {
                     _logger.LogWarning("Could not deserialize outbox message with ID {OutboxMessageId}", outboxMessage.Id);
                     continue;

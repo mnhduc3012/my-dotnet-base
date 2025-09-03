@@ -33,8 +33,7 @@ public sealed class UserRegisteredDomainEventHandler : INotificationHandler<User
 
         var otp = Otp.Create(
             notification.Email,
-            code,
-            notification.FullName);
+            code);
 
         _otpRepository.Add(otp);
 

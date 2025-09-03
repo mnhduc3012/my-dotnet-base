@@ -12,7 +12,7 @@ public sealed class Otp(Guid id) : AggregateRoot<Guid>(id)
     public DateTime ExpiresOnUtc { get; private set; }
     public bool IsUsed { get; private set; }
 
-    public static Otp Create(Email email, string code, string fullname)
+    public static Otp Create(Email email, string code)
     {
         var otp = new Otp(Guid.NewGuid())
         {
@@ -22,7 +22,7 @@ public sealed class Otp(Guid id) : AggregateRoot<Guid>(id)
             IsUsed = false
         };
 
-        otp.RaiseDomainEvent(new OtpGeneratedDomainEvent(email, fullname, code, ExpirationMinutes));
+        otp.RaiseDomainEvent(new OtpGeneratedDomainEvent(email, code, ExpirationMinutes));
 
         return otp;
     }
@@ -30,12 +30,12 @@ public sealed class Otp(Guid id) : AggregateRoot<Guid>(id)
     public void MarkAsUsed() => IsUsed = true;
     public bool IsValid() => !IsUsed && DateTime.UtcNow < ExpiresOnUtc;
 
-    public void ResendOtp(string fullname, string newCode)
+    public void ResendOtp(string newCode)
     {
         Code = newCode;
         ExpiresOnUtc = DateTime.UtcNow.AddMinutes(ExpirationMinutes);
         IsUsed = false;
 
-        RaiseDomainEvent(new OtpGeneratedDomainEvent(Email, fullname, newCode, ExpirationMinutes));
+        RaiseDomainEvent(new OtpGeneratedDomainEvent(Email, newCode, ExpirationMinutes));
     }
 }

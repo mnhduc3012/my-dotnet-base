@@ -12,8 +12,8 @@ public static class IdentityErrors
         "Unauthorized",
         "Refresh token không hợp lệ");
 
-    public static readonly Error EmailNotConfirmed = Error.Failure(
-        "Identity.EmailNotConfirmed",
+    public static readonly Error EmailNotVerified = Error.Failure(
+        "Identity.EmailNotVerified",
         "Email chưa được xác thực");
 
     public static readonly Error InvalidOtp = Error.Failure(
