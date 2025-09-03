@@ -1,4 +1,4 @@
-﻿using MyDotNetBase.Domain.Users.ValueObjects;
+﻿using MyDotNetBase.Domain.Shared.ValueObjects;
 
 namespace MyDotNetBase.Domain.Users.Services;
 

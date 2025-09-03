@@ -37,4 +37,24 @@ public class IdentityController(ISender sender) : ApiController(sender)
             request.Password);
         return SendCommandAsync(command, cancellationToken);
     }
+
+    [HttpPost("verify-email")]
+    public Task<IActionResult> VerifyEmail(
+        [FromBody] VerifyEmailRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new VerifyEmailCommand(
+            request.Email,
+            request.Code);
+        return SendCommandAsync(command, cancellationToken);
+    }
+
+    [HttpPost("resend-otp/{email}")]
+    public Task<IActionResult> ResendOtp(
+        [FromRoute] string email,
+        CancellationToken cancellationToken)
+    {
+        var command = new ResendOtpCommand(email);
+        return SendCommandAsync(command, cancellationToken);
+    }
 }

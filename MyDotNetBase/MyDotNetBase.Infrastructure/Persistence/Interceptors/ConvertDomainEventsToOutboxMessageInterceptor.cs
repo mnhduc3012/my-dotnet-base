@@ -16,19 +16,23 @@ public sealed class ConvertDomainEventsToOutboxMessageInterceptor : SaveChangesI
         if (dbContext is null)
             return base.SavingChangesAsync(eventData, result, cancellationToken);
 
-        var events = dbContext.ChangeTracker
-            .Entries<IHasDomainEvents>()
-            .Select(e => e.Entity)
-            .SelectMany(aggregateRoot =>
+        var domainEntities = dbContext.ChangeTracker
+            .Entries()
+            .Where(e => e.Entity is IHasDomainEvents)
+            .Select(e => (IHasDomainEvents)e.Entity)
+            .ToList();
+
+        var events = domainEntities
+            .SelectMany(entity =>
             {
-                var domainEvents = aggregateRoot.DomainEvents;
-                aggregateRoot.ClearDomainEvents();
+                var domainEvents = entity.DomainEvents.ToList();
+                entity.ClearDomainEvents();
                 return domainEvents;
             })
             .Select(domainEvent => new OutboxMessage
             {
                 Id = Guid.NewGuid(),
-                Type = domainEvent.GetType().Name,
+                Type = domainEvent.GetType().AssemblyQualifiedName!,
                 Content = JsonConvert.SerializeObject(
                     domainEvent,
                     new JsonSerializerSettings

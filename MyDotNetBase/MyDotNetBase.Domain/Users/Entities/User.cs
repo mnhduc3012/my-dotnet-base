@@ -1,6 +1,7 @@
 ﻿using MyDotNetBase.Domain.Roles.Entities;
 using MyDotNetBase.Domain.Shared.Abstractions;
 using MyDotNetBase.Domain.Shared.Results;
+using MyDotNetBase.Domain.Shared.ValueObjects;
 using MyDotNetBase.Domain.Users.Errors;
 using MyDotNetBase.Domain.Users.Events;
 using MyDotNetBase.Domain.Users.Services;
@@ -17,6 +18,7 @@ public sealed class User : AggregateRoot<UserId>
     public Email Email { get; private set; } = null!;
     public string PasswordHash { get; private set; } = null!;
     public IReadOnlyList<Role> Roles => _roles.AsReadOnly();
+    public bool IsEmailVerified { get; private set; } = false;
     private User(UserId id) : base(id) { }
 
     public static async Task<Result<User>> CreateAsync(
@@ -26,9 +28,6 @@ public sealed class User : AggregateRoot<UserId>
         string passwordHash,
         List<Role> roles)
     {
-        if (roles.Count == 0)
-            return UserErrors.NoRolesAssigned;
-
         var emailOrError = Email.Create(email);
         if (emailOrError.IsFailure)
             return emailOrError.Error;
@@ -53,10 +52,9 @@ public sealed class User : AggregateRoot<UserId>
         IEmailUniquenessChecker emailUniquenessChecker,
         string fullName,
         string email,
-        string passwordHash,
-        List<Role> roles)
+        string passwordHash)
     {
-        var userOrError = await CreateAsync(emailUniquenessChecker, fullName, email, passwordHash, roles);
+        var userOrError = await CreateAsync(emailUniquenessChecker, fullName, email, passwordHash, []);
         if (userOrError.IsFailure)
             return userOrError.Error;
 
@@ -75,5 +73,10 @@ public sealed class User : AggregateRoot<UserId>
     public void RemoveRole(Role role)
     {
         _roles.Remove(role);
+    }
+
+    public void VerifyEmail()
+    {
+        IsEmailVerified = true;
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace MyDotNetBase.Infrastructure.Identity;
 
-public class JwtConfiguration
+public sealed class JwtConfiguration
 {
     public required string SecretKey { get; set; }
     public required string Issuer { get; set; }

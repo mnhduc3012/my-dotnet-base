@@ -1,9 +1,6 @@
 ﻿using MyDotNetBase.Application.Abstractions.Authentication;
-using MyDotNetBase.Application.Abstractions.Data;
 using MyDotNetBase.Domain.Identity.Entities;
 using MyDotNetBase.Domain.Identity.Errors;
-using MyDotNetBase.Domain.Shared.Results;
-using MyDotNetBase.Domain.Users.Errors;
 
 namespace MyDotNetBase.Application.Identity.Commands;
 
@@ -60,6 +57,12 @@ public sealed class LoginCommandHandler : ICommandHandler<LoginCommand, LoginCom
 
         if (!_passwordHasher.Verify(user.PasswordHash, request.Password))
             return IdentityErrors.InvalidCredentials;
+
+        if(user.IsDeleted)
+            return IdentityErrors.InvalidCredentials;
+
+        if (!user.IsEmailVerified)
+            return IdentityErrors.EmailNotVerified;
 
         var accessToken = _tokenProvider.GenerateAccessToken(user);
 

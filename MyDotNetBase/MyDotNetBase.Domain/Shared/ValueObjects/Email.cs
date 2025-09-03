@@ -2,7 +2,7 @@
 using MyDotNetBase.Domain.Users.Errors;
 using System.Net.Mail;
 
-namespace MyDotNetBase.Domain.Users.ValueObjects;
+namespace MyDotNetBase.Domain.Shared.ValueObjects;
 
 public sealed record Email(string Value)
 {

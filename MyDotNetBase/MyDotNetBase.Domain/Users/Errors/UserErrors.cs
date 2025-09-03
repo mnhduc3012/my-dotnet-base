@@ -1,5 +1,5 @@
 ﻿using MyDotNetBase.Domain.Shared.Results;
-using MyDotNetBase.Domain.Users.ValueObjects;
+using MyDotNetBase.Domain.Shared.ValueObjects;
 
 namespace MyDotNetBase.Domain.Users.Errors;
 public class UserErrors
@@ -11,4 +11,12 @@ public class UserErrors
     public static readonly Error NoRolesAssigned = Error.Failure(
         "User.NoRolesAssigned",
         "Người dùng phải có ít nhất 1 vai trò");
+
+    public static readonly Error NotFound = Error.Failure(
+        "User.NotFound",
+        "Người dùng không tồn tại");
+
+    public static readonly Error EmailAlreadyVerified = Error.Failure(
+        "User.EmailAlreadyVerified",
+        "Email đã được xác thực");
 }
