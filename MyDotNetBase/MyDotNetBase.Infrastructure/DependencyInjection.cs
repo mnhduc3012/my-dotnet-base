@@ -5,9 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using MyDotNetBase.Application.Abstractions.Authentication;
 using MyDotNetBase.Application.Abstractions.Data;
+using MyDotNetBase.Application.Abstractions.Emails;
+using MyDotNetBase.Application.Abstractions.Identity;
 using MyDotNetBase.Domain.Roles.Enums;
 using MyDotNetBase.Domain.Shared.Constants;
 using MyDotNetBase.Domain.Users.Services;
+using MyDotNetBase.Infrastructure.Emails;
 using MyDotNetBase.Infrastructure.Identity;
 using MyDotNetBase.Infrastructure.Outbox;
 using MyDotNetBase.Infrastructure.Persistence;
@@ -29,6 +32,7 @@ public static class DependencyInjection
         services
             .AddDatabaseServices(configuration)
             .AddIdentityServices(configuration)
+            .AddEmailServices(configuration)
             .AddDomainServices()
             .AddBackgroundJobsServices()
             .AddInfrastructureHealthChecks();
@@ -62,6 +66,7 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<IOtpRepository, OtpRepository>();
 
         return services;
     }
@@ -74,6 +79,7 @@ public static class DependencyInjection
 
         services.AddSingleton<ITokenProvider, JwtTokenProvider>();
         services.AddSingleton<IPasswordHasher, PasswordHasher>();
+        services.AddSingleton<IOtpGenerator, OtpGenerator>();
 
         services.AddAuthorization(options =>
         {
@@ -96,6 +102,15 @@ public static class DependencyInjection
                 };
             });
 
+        return services;
+    }
+
+    private static IServiceCollection AddEmailServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<EmailConfiguration>(configuration.GetSection("Email"));
+        services.Configure<EmailTemplateConfiguration>(configuration.GetSection("EmailTemplate"));
+        services.AddTransient<ITemplateRenderer, HtmlTemplateRenderer>();
+        services.AddTransient<IEmailSender, EmailSender>();
         return services;
     }
 

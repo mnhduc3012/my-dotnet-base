@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyDotNetBase.Domain.Users.Entities;
 using MyDotNetBase.Domain.Users.ValueObjects;
+using MyDotNetBase.Domain.Shared.ValueObjects;
 
 namespace MyDotNetBase.Infrastructure.Persistence.Configurations;
 
@@ -25,7 +26,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .Property(u => u.Email)
             .HasConversion(
                 email => email.Value,
-                value => Email.Create(value).Value);
+                value => new Email(value));
             
         builder.HasIndex(u => u.Email).IsUnique();
 

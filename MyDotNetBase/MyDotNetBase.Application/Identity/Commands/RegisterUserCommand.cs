@@ -1,5 +1,4 @@
 ﻿using MyDotNetBase.Application.Abstractions.Authentication;
-using MyDotNetBase.Domain.Shared.Results;
 using MyDotNetBase.Domain.Users.Entities;
 using MyDotNetBase.Domain.Users.Services;
 
@@ -33,35 +32,28 @@ public sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserCom
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IEmailUniquenessChecker _emailUniquenessChecker;
-    private readonly IRoleRepository _roleRepository;
     private readonly IUnitOfWork _unitOfWork;
     public RegisterUserCommandHandler(
         IUserRepository userRepository,
         IPasswordHasher passwordHasher,
         IEmailUniquenessChecker emailUniquenessChecker,
-        IRoleRepository roleRepository,
         IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;
         _emailUniquenessChecker = emailUniquenessChecker;
-        _roleRepository = roleRepository;
         _unitOfWork = unitOfWork;
     }
+
     public async Task<Result> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        var defaultRole = await _roleRepository.GetDefaultRoleAsync(cancellationToken);
-        if (defaultRole is null)
-            return Error.NullValue;
-
         var passwordHash = _passwordHasher.Hash(request.Password);
 
         var userOrError = await User.RegisterAsync(
             _emailUniquenessChecker,
             request.FullName,
             request.Email,
-            passwordHash,
-            [defaultRole]);
+        passwordHash);
 
         if (userOrError.IsFailure)
             return userOrError.Error;

@@ -1,4 +1,5 @@
-﻿using MyDotNetBase.Domain.Users.Services;
+﻿using MyDotNetBase.Domain.Shared.ValueObjects;
+using MyDotNetBase.Domain.Users.Services;
 using MyDotNetBase.Domain.Users.ValueObjects;
 using MyDotNetBase.Infrastructure.Persistence;
 

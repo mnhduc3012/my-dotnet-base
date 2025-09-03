@@ -29,7 +29,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Email\" />
+	  <None Update="Emails\Templates\VERIFY_EMAIL.html">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>
